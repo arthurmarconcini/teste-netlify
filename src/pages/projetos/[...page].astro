@@ -1,0 +1,46 @@
+---
+import type { Page } from "astro";
+export const prerender = true;
+
+type User = {
+  name: string;
+};
+
+export async function getStaticPaths({ paginate }: { paginate: Function }) {
+  const users: User[] = [
+    { name: "User 1" },
+    { name: "User 2" },
+    { name: "User 3" },
+    { name: "User 4" },
+    { name: "User 5" },
+    { name: "User 6" },
+    { name: "User 7" },
+    { name: "User 8" },
+    { name: "User 9" },
+    { name: "User 10" },
+  ];
+
+  return paginate(users, { pageSize: 5 });
+}
+
+const { page } = Astro.props as { page: Page<User> };
+---
+
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>TITLE</title>
+  </head>
+  <body class="dark flex flex-col min-h-screen">
+    <main class="p-8 mx-auto w-full flex-1 max-w-6xl">
+      <div class="flex flex-col mb-10">
+        {page.data.map((user) => <div>{user.name}</div>)}
+      </div>
+    </main>
+  </body>
+</html>
